@@ -3,21 +3,25 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const pool = require("./db/pool");
 const bcrypt = require("bcryptjs");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+
+const indexRouter = require("./routes/indexRouter");
+const signUpRouter = require("./routes/signUpRouter");
+const logInRouter = require("../members-only/routes/logInRouter");
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const { rows } = await pool.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username]
-      );
-      const user = rows[0];
+      const user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+      });
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
@@ -36,10 +40,11 @@ passport.serializeUser((user, done) => {
 });
 passport.deserializeUser(async (id, done) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-      id,
-    ]);
-    const user = rows[0];
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
     done(null, user);
   } catch (err) {
     done(err);
@@ -69,9 +74,14 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
+app.use("/sign-up", signUpRouter);
+app.use("/log-in", logInRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
+  if (res.headersSent) {
+    return next(err);
+  }
   res.status(500).send(err.message);
 });
 

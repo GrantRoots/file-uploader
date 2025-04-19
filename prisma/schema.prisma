@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -17,7 +16,7 @@ datasource db {
 model Session {
   id        String   @id
   sid       String   @unique
-  data      String   @db.MediumText  // MediumText may be needed for MySql
+  data      String
   expiresAt   DateTime
 }
 
@@ -25,4 +24,21 @@ model User {
   id    Int     @id @default(autoincrement())
   username  String @unique
   password String
+  folders Folder[]
+}
+
+model File {
+  id    Int     @id @default(autoincrement())
+  folder Folder @relation(fields: [folderId], references: [id])
+  folderId Int
+  url String
+  createdAt DateTime @default(now())
+}
+
+model Folder {
+  id    Int     @id @default(autoincrement())
+  name String
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  files File[]
 }
