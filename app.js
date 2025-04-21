@@ -12,6 +12,7 @@ const indexRouter = require("./routes/indexRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const logInRouter = require("./routes/logInRouter");
 const uploadFileRouter = require("./routes/uploadFileRouter");
+const createFolderRouter = require("./routes/createFolderRouter");
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -76,6 +77,7 @@ app.use("/", indexRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", logInRouter);
 app.use("/upload-file", uploadFileRouter);
+app.use("/create-folder", createFolderRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

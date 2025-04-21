@@ -36,7 +36,19 @@ async function uploadFile(fileName, userId, fileSize) {
   });
 }
 
+async function createFolder(name, userId) {
+  await prisma.folder.create({
+    data: {
+      name: name,
+      authorId: userId,
+    },
+  });
+  const newFolder = await prisma.folder.findMany();
+  console.log(newFolder);
+}
+
 module.exports = {
   signUp,
   uploadFile,
+  createFolder,
 };
