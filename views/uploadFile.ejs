@@ -6,9 +6,14 @@
     <title>Upload File</title>
   </head>
   <body>
-    <form action="" method="post" enctype="multipart/form-data">
-      <label for="file">File</label>
+    <form action="/upload-file" method="post" enctype="multipart/form-data">
+      <label for="file">File: </label>
       <input type="file" name="file" />
+      <label for="folder">Folder: </label>
+      <select name="folder">
+        <option value="default">Default</option>
+        <!-- Show folders they made -->
+      </select>
       <button type="submit">Submit</button>
     </form>
   </body>

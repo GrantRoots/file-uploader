@@ -7,12 +7,11 @@ const bcrypt = require("bcryptjs");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 const indexRouter = require("./routes/indexRouter");
 const signUpRouter = require("./routes/signUpRouter");
-const logInRouter = require("../members-only/routes/logInRouter");
+const logInRouter = require("./routes/logInRouter");
+const uploadFileRouter = require("./routes/uploadFileRouter");
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -76,6 +75,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", logInRouter);
+app.use("/upload-file", uploadFileRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

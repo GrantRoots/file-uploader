@@ -21,10 +21,10 @@ model Session {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  username  String @unique
-  password String
-  folders Folder[]
+  id        Int     @id @default(autoincrement())
+  username  String  @unique
+  password  String
+  folders   Folder[]
 }
 
 model File {
@@ -33,6 +33,9 @@ model File {
   folderId Int
   url String
   createdAt DateTime @default(now())
+  size Int
+
+  @@unique([folderId, url])
 }
 
 model Folder {
@@ -41,4 +44,6 @@ model Folder {
   author User @relation(fields: [authorId], references: [id])
   authorId Int
   files File[]
+
+  @@unique([authorId, name])
 }

@@ -7,9 +7,13 @@
   </head>
   <body>
     <h1>Home</h1>
-    <a href="/sign-up">Sign Up</a>
+    <a href="/sign-up"><button>Sign Up</button></a>
+    <a href="/log-in"><Button>Log In</Button></a>
     <% if (locals.user) { %>
     <div>User is logged in</div>
+    <a href="/upload-file"><button>Upload File</button></a>
+    <button>Add Folder?</button>
+    <!-- Show users folders -->
     <% } %>
   </body>
 </html>
