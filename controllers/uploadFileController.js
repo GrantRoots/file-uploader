@@ -2,16 +2,20 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const db = require("../queries/queries");
 
-function showForm(req, res) {
-  res.render("uploadFile");
+async function showForm(req, res) {
+  const folders = await db.getAllFolders();
+  res.render("uploadFile", { folders: folders });
 }
 
 const postFile = [
   upload.single("file"),
   async (req, res) => {
-    console.log(req.user);
-    console.log(req.file);
-    await db.uploadFile(req.file.originalname, req.user.id, req.file.size);
+    await db.uploadFile(
+      req.file.originalname,
+      req.user.id,
+      req.file.size,
+      req.body.folder
+    );
     res.redirect("/");
   },
 ];

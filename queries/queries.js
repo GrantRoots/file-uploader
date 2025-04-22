@@ -10,15 +10,12 @@ async function signUp(username, password) {
   });
 }
 
-async function uploadFile(fileName, userId, fileSize) {
-  //could use default folder or create one if none exist
-  //get folder id
-  let folder = await prisma.folder.findMany({
+async function uploadFile(fileName, userId, fileSize, folderId) {
+  let folder = await prisma.folder.findUnique({
     where: {
-      authorId: userId,
+      id: Number(folderId),
     },
   });
-  console.log(folder, "folder queries");
   if (folder.length < 1) {
     folder = await prisma.folder.create({
       data: {
@@ -31,7 +28,7 @@ async function uploadFile(fileName, userId, fileSize) {
     data: {
       url: fileName,
       size: fileSize,
-      folderId: folder[0].id || folder.id,
+      folderId: folder.id,
     },
   });
 }
@@ -47,8 +44,14 @@ async function createFolder(name, userId) {
   console.log(newFolder);
 }
 
+async function getAllFolders() {
+  const folders = await prisma.folder.findMany();
+  return folders;
+}
+
 module.exports = {
   signUp,
   uploadFile,
   createFolder,
+  getAllFolders,
 };

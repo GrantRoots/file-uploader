@@ -10,11 +10,17 @@
       <label for="file">File: </label>
       <input type="file" name="file" />
       <label for="folder">Folder: </label>
+      <% if (folders.length < 1) { %>
+      <div>No folders will use default</div>
+      <% } else { %>
       <select name="folder">
-        <option value="default">Default</option>
-        <!-- Show folders they made -->
+        <% folders.forEach((folder) => { %>
+        <option value="<%= folder.id %>"><%= folder.name %></option>
+        <% }) %>
       </select>
+      <% } %>
       <button type="submit">Submit</button>
     </form>
+    <a href="/"><button>Home</button></a>
   </body>
 </html>

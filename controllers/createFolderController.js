@@ -5,6 +5,7 @@ function showForm(req, res) {
   res.render("createFolder");
 }
 
+//could allow numbers
 const validateFolder = [body("folder").trim().notEmpty().isAlpha()];
 const postFolder = [
   validateFolder,
