@@ -49,7 +49,7 @@ const updateName = [
 
 async function deleteFolder(req, res, next) {
   try {
-    await db.deleteFolder(req.query.name, req.user.id);
+    await db.deleteFolder(Number(req.body.folderId));
     res.redirect("/");
   } catch (error) {
     next(error);

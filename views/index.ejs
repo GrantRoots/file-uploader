@@ -19,9 +19,10 @@
     <a href="/folder/update?name=<%= folder.name %>"
       ><button>Change Name</button></a
     >
-    <a href="folder/delete?name=<%= folder.name %>"
-      ><button>Delete Folder</button></a
-    >
+    <form action="/folder/delete" method="post">
+      <input type="hidden" name="folderId" value="<%= folder.id %>" />
+      <button type="submit">Delete Folder</button>
+    </form>
     <div><b>Files:</b></div>
     <% files.forEach((file) => { %> <% if (file.folderId === folder.id) { %>
     <div><%= file.url %></div>

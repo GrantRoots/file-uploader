@@ -79,12 +79,16 @@ async function updateFolder(oldName, userId, newName) {
   });
 }
 
-async function deleteFolder(name, userId) {
+async function deleteFolder(id) {
   try {
-    return await prisma.folder.delete({
+    await prisma.file.deleteMany({
       where: {
-        name: name,
-        authorId: userId,
+        folderId: id,
+      },
+    });
+    await prisma.folder.deleteMany({
+      where: {
+        id: id,
       },
     });
   } catch (error) {

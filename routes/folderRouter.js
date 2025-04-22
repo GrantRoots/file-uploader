@@ -5,6 +5,6 @@ folderRouter.get("/create", folderController.showCreateForm);
 folderRouter.post("/create", folderController.postFolder);
 folderRouter.get("/update", folderController.showUpdateForm);
 folderRouter.post("/update", folderController.updateName);
-folderRouter.get("/delete", folderController.deleteFolder);
+folderRouter.post("/delete", folderController.deleteFolder);
 
 module.exports = folderRouter;
