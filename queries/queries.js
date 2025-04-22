@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+//MAKE ALL SEPERATE FILES
+//ADD TRY CATCH TO EVERY ASYNC FUNCTION
+
 async function signUp(username, password) {
   await prisma.user.create({
     data: {
@@ -49,9 +52,54 @@ async function getAllFolders() {
   return folders;
 }
 
+async function getAllFiles() {
+  const files = await prisma.file.findMany();
+  return files;
+}
+
+async function getFile(id) {
+  return await prisma.file.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
+
+async function updateFolder(oldName, userId, newName) {
+  return await prisma.folder.update({
+    where: {
+      authorId_name: {
+        authorId: userId,
+        name: oldName,
+      },
+    },
+    data: {
+      name: newName,
+    },
+  });
+}
+
+async function deleteFolder(name, userId) {
+  try {
+    return await prisma.folder.delete({
+      where: {
+        name: name,
+        authorId: userId,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 module.exports = {
   signUp,
   uploadFile,
   createFolder,
   getAllFolders,
+  getAllFiles,
+  getFile,
+  updateFolder,
+  deleteFolder,
 };

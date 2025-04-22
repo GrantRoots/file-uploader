@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Folder</title>
+    <title>Update Folder</title>
   </head>
   <body>
-    <form action="/folder/create" method="post">
-      <label for="folder">Name: </label>
+    <form action="/folder/update" method="post">
+      <label for="folder">New Name:</label>
       <input type="text" name="folder" />
+      <input type="hidden" value="<%= query %>" name="oldName" />
       <button type="submit">Submit</button>
     </form>
   </body>

@@ -12,8 +12,20 @@
     <% if (locals.user) { %>
     <div>User is logged in</div>
     <a href="/upload-file"><button>Upload File</button></a>
-    <a href="/create-folder"><button>Create Folder</button></a>
-    <!-- Show users folders -->
-    <% } %>
+    <a href="/folder/create"><button>Create Folder</button></a>
+    <h1>Folders...</h1>
+    <% folders.forEach((folder) => { %>
+    <h2><%= folder.name %></h2>
+    <a href="/folder/update?name=<%= folder.name %>"
+      ><button>Change Name</button></a
+    >
+    <a href="folder/delete?name=<%= folder.name %>"
+      ><button>Delete Folder</button></a
+    >
+    <div><b>Files:</b></div>
+    <% files.forEach((file) => { %> <% if (file.folderId === folder.id) { %>
+    <div><%= file.url %></div>
+    <a href="/details/<%= file.id %>"><button>Details...</button></a>
+    <% } %> <% }) %> <% }) %> <% } %>
   </body>
 </html>
