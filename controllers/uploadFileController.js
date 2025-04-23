@@ -14,7 +14,8 @@ const postFile = [
       req.file.originalname,
       req.user.id,
       req.file.size,
-      req.body.folder
+      req.body.folder,
+      req.file.filename
     );
     res.redirect("/");
   },

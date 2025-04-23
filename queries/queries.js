@@ -13,7 +13,7 @@ async function signUp(username, password) {
   });
 }
 
-async function uploadFile(fileName, userId, fileSize, folderId) {
+async function uploadFile(fileName, userId, fileSize, folderId, filename) {
   let folder = await prisma.folder.findUnique({
     where: {
       id: Number(folderId),
@@ -32,6 +32,7 @@ async function uploadFile(fileName, userId, fileSize, folderId) {
       url: fileName,
       size: fileSize,
       folderId: folder.id,
+      filename: filename,
     },
   });
 }
